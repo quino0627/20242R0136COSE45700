@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "target": "es6",
+    "module": "es2022",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "baseUrl": "./",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noImplicitAny": false,
+    "useUnknownInCatchVariables": false,
+    "skipLibCheck": true,
+    "downlevelIteration": true,
+    "importHelpers": true,
+    "lib": ["dom", "esnext"],
+    "types": ["node"]
+  },
+  "include": [
+    "src/**/*",
+    "src/**/*.json",
+    "__tests__/**/*",
+    ".ladle/**/*",
+    ".*.js",
+    "*.js"
+  ]
+}
