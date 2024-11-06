@@ -43,6 +43,15 @@ module.exports = function (api) {
         namespace: "ch",
       },
     ],
+    [
+      "module-resolver",
+      {
+        root: ["./src"],
+        alias: {
+          "@": "./src",
+        },
+      },
+    ],
   ];
 
   return {

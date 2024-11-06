@@ -18,7 +18,10 @@
     "downlevelIteration": true,
     "importHelpers": true,
     "lib": ["dom", "esnext"],
-    "types": ["node"]
+    "types": ["node"],
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": [
     "src/**/*",

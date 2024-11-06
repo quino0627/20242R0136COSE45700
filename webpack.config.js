@@ -9,6 +9,9 @@ module.exports = {
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+    },
   },
   module: {
     rules: [
@@ -18,6 +21,10 @@ module.exports = {
         use: {
           loader: "babel-loader",
         },
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
       },
     ],
   },
@@ -30,7 +37,7 @@ module.exports = {
     static: {
       directory: path.join(__dirname, "public"),
     },
-    compress: true,
     port: 3000,
+    hot: true,
   },
 };
