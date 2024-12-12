@@ -1,6 +1,7 @@
 import { Button, Stack, Text } from "@channel.io/bezier-react";
 import { ShapeType } from "@/constants/ShapeType";
 import { useCommand } from "@/hooks/useCommand";
+import { useShapeViewModel } from "@/hooks/useShapeViewModel";
 import styled from "styled-components";
 import { observer } from "mobx-react-lite";
 
@@ -21,7 +22,22 @@ const Section = styled.div`
 `;
 
 const LeftPanel = observer(() => {
-  const { addShape, undo, redo, canUndo, canRedo } = useCommand();
+  const vm = useShapeViewModel();
+  const { addShape, undo, redo, canUndo, canRedo, bringToFront, sendToBack } =
+    useCommand();
+  const { selectedShapes } = vm;
+
+  const handleBringToFront = () => {
+    selectedShapes.forEach((shape) => {
+      bringToFront(shape);
+    });
+  };
+
+  const handleSendToBack = () => {
+    selectedShapes.forEach((shape) => {
+      sendToBack(shape);
+    });
+  };
 
   return (
     <Panel>
@@ -116,8 +132,9 @@ const LeftPanel = observer(() => {
               size="m"
               colorVariant="cobalt"
               styleVariant="secondary"
-              onClick={() => console.log("bring to front")}
+              onClick={handleBringToFront}
               text="맨 앞으로"
+              disabled={!vm.hasSelection}
             >
               맨 앞으로
             </Button>
@@ -125,8 +142,9 @@ const LeftPanel = observer(() => {
               size="m"
               colorVariant="cobalt"
               styleVariant="secondary"
-              onClick={() => console.log("send to back")}
+              onClick={handleSendToBack}
               text="맨 뒤로"
+              disabled={!vm.hasSelection}
             >
               맨 뒤로
             </Button>

@@ -54,6 +54,22 @@ export const useCommand = () => {
     }
   };
 
+  const bringToFront = (shape: ShapeComponent) => {
+    const maxZIndex = Math.max(
+      ...shapeService.getShapes().map((s) => s.getZIndex()),
+      0
+    );
+    updateShape(shape, { zIndex: maxZIndex + 1 });
+  };
+
+  const sendToBack = (shape: ShapeComponent) => {
+    const minZIndex = Math.min(
+      ...shapeService.getShapes().map((s) => s.getZIndex()),
+      0
+    );
+    updateShape(shape, { zIndex: minZIndex - 1 });
+  };
+
   return {
     addShape,
     removeShape,
@@ -64,5 +80,7 @@ export const useCommand = () => {
     canRedo,
     getCommandHistory,
     removeSelectedShapes,
+    bringToFront,
+    sendToBack,
   };
 };

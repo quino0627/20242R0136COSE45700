@@ -1,4 +1,4 @@
-import { ShapeViewModel } from "../viewmodels/ShapeViewModel";
+import { ShapeViewModel } from "@/viewmodels/ShapeViewModel";
 import { ShapeService } from "@/services/ShapeService";
 import { SelectionManager } from "@/managers/SelectionManager";
 

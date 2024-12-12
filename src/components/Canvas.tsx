@@ -28,6 +28,10 @@ const Canvas = observer(() => {
 
   const shapes = vm.shapes.flatMap(getAllShapes);
 
+  const sortedShapes = shapes
+    .slice()
+    .sort((a, b) => a.getZIndex() - b.getZIndex());
+
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (editingId) return;
@@ -67,7 +71,7 @@ const Canvas = observer(() => {
     >
       <Layer>
         <Group>
-          {shapes.map((shape: Shape) => {
+          {sortedShapes.map((shape: Shape) => {
             const isSelected = vm.isSelected(shape.getId());
             return (
               <ShapeRenderer

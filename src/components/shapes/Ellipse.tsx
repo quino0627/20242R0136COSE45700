@@ -68,6 +68,7 @@ const Ellipse = observer(
               rotation: node.rotation(),
             });
           }}
+          zIndex={shape.getZIndex()}
         />
         {isSelected && <Transformer ref={transformerRef} />}
       </>

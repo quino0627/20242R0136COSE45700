@@ -69,6 +69,7 @@ const Line = observer(
               rotation: node.rotation(),
             });
           }}
+          zIndex={shape.getZIndex()}
         />
         {isSelected && (
           <Transformer
