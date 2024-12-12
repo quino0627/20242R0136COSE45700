@@ -59,7 +59,6 @@ export class ShapeViewModel implements ShapeCommandExecutor {
   }
 
   addShape(type: ShapeType): void {
-    console.log("ShapeViewModel addShape", type);
     const shape = ShapeFactory.getInstance().createShape(type);
     const command = this.commandFactory.createAddCommand(shape);
     this.executeCommand(command);

@@ -65,7 +65,6 @@ const Canvas = observer(() => {
         <Group>
           {shapes.map((shape: Shape) => {
             const isSelected = vm.isSelected(shape.getId());
-            console.log("Canvas rendering, shape:", shape.getId(), isSelected);
             return (
               <ShapeRenderer
                 key={shape.getId()}

@@ -21,8 +21,6 @@ const Rectangle = ({
   const shapeRef = useRef<Konva.Rect>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
 
-  console.log(isSelected);
-
   useEffect(() => {
     if (isSelected && transformerRef.current && shapeRef.current) {
       transformerRef.current.nodes([shapeRef.current]);
@@ -60,6 +58,7 @@ const Rectangle = ({
           if (!shapeRef.current) return;
 
           const node = shapeRef.current;
+          // state 적용?
           onChange({
             position: {
               x: node.x(),

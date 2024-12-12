@@ -18,7 +18,6 @@ export class CommandHistory {
   }
 
   execute(command: Command): void {
-    console.log("CommandHistory execute", command);
     command.execute();
     this.commands.push(command);
     this.redoStack = [];
