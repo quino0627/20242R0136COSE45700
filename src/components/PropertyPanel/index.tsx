@@ -14,23 +14,27 @@ import { useShapeViewModel } from "@/hooks/useShapeViewModel";
 import { useCommand } from "@/hooks/useCommand";
 import { observer } from "mobx-react-lite";
 import { useState, useRef } from "react";
+import styled from "styled-components";
 
 interface PropertyValue<T> {
   value: T | null;
   isMultiple: boolean;
 }
 
-// const COLOR_PRESETS = [
-//   { label: "코발트", value: "#0051CC", textColor: "#FFFFFF" },
-//   { label: "레드", value: "#DC3545", textColor: "#FFFFFF" },
-//   { label: "그린", value: "#28A745", textColor: "#FFFFFF" },
-//   { label: "옐로우", value: "#FFC107", textColor: "#000000" },
-//   { label: "퍼플", value: "#6F42C1", textColor: "#FFFFFF" },
-// ] as const;
+const COLOR_PRESETS = [
+  { label: "코발트", value: "#0051CC" },
+  { label: "레드", value: "#DC3545" },
+  { label: "그린", value: "#28A745" },
+  { label: "옐로우", value: "#FFC107" },
+] as const;
 
-// const ColorOption = ({ label, value, onColorChange }) => (
-//   <ListItem content={label} onClick={() => onColorChange(value)} />
-// );
+const ColorButton = styled(Button)<{ color: string }>`
+  width: 32px;
+  height: 32px;
+  background-color: ${(props) => props.color};
+  border: 1px solid
+    ${(props) => (props.color === "#FFFFFF" ? "#E5E5E5" : "transparent")};
+`;
 
 const PropertyPanel = observer(() => {
   const selectRef = useRef<SelectRef>(null);
@@ -94,13 +98,11 @@ const PropertyPanel = observer(() => {
     },
   };
 
-  // const color = getCommonValue((component) => component.getColor?.());
-
-  const handleColorChange = (value: string) => {
+  const handleColorChange = (color: string) => {
+    console.log("Color change requested:", color);
     selectedShapes.forEach((shape) => {
-      updateShape(shape, {
-        color: value,
-      });
+      console.log("Updating shape:", shape.getId(), "with color:", color);
+      updateShape(shape, { color });
     });
   };
 
@@ -173,6 +175,16 @@ const PropertyPanel = observer(() => {
           <Text typo="14" bold>
             색상
           </Text>
+          <Stack direction="horizontal" spacing={8}>
+            {COLOR_PRESETS.map(({ label, value }) => (
+              <ColorButton
+                key={value}
+                color={value}
+                onClick={() => handleColorChange(value)}
+                title={label}
+              />
+            ))}
+          </Stack>
         </Section>
       </Stack>
     </Panel>

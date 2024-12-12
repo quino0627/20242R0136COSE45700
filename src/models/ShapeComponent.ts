@@ -48,4 +48,6 @@ export interface ShapeComponent {
   getComponents?(): ShapeComponent[];
   addComponent?(component: ShapeComponent): void;
   removeComponent?(componentId: string): void;
+  getColor?(): string;
+  setColor?(color: string): void;
 }

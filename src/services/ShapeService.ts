@@ -41,21 +41,13 @@ export class ShapeService implements ShapeCommandExecutor {
     const target = this.shapes.find((s) => s.getId() === shape.getId());
     if (!target) return;
 
-    if (updates.position) {
-      target.setPosition(updates.position);
-    }
-    if (updates.size) {
-      target.setSize(updates.size);
-    }
-    if (updates.rotation !== undefined) {
-      target.setRotation(updates.rotation);
-    }
-    if (updates.zIndex !== undefined) {
-      target.setZIndex(updates.zIndex);
-    }
-    if (updates.text !== undefined && target.setText) {
+    if (updates.position) target.setPosition(updates.position);
+    if (updates.size) target.setSize(updates.size);
+    if (updates.rotation !== undefined) target.setRotation(updates.rotation);
+    if (updates.zIndex !== undefined) target.setZIndex(updates.zIndex);
+    if (updates.text !== undefined && target.setText)
       target.setText(updates.text);
-    }
+    if (updates.color !== undefined) target.setColor?.(updates.color);
   }
 
   getShapeById(id: string): ShapeComponent | undefined {
@@ -78,6 +70,12 @@ export class ShapeService implements ShapeCommandExecutor {
     updates: Partial<ShapeProperties>
   ): void {
     const target = this.shapes.find((s) => s.getId() === shape.getId());
+    console.log(
+      "ShapeService updateShapeInState:",
+      shape.getId(),
+      updates,
+      !!target
+    );
     if (!target) return;
 
     if (updates.position) target.setPosition(updates.position);
@@ -86,5 +84,9 @@ export class ShapeService implements ShapeCommandExecutor {
     if (updates.zIndex !== undefined) target.setZIndex(updates.zIndex);
     if (updates.text !== undefined && target.setText)
       target.setText(updates.text);
+    if (updates.color !== undefined && target.setColor) {
+      console.log("Setting color:", updates.color);
+      target.setColor(updates.color);
+    }
   }
 }

@@ -9,10 +9,12 @@ import { KonvaEventObject } from "konva/lib/Node";
 import { observer } from "mobx-react-lite";
 import { Group, Layer, Stage } from "react-konva";
 import { useCommand } from "@/hooks/useCommand";
+import { useTextEditor } from "@/hooks/useTextEditor";
 
 const Canvas = observer(() => {
   const vm = useShapeViewModel();
   const { updateShape, undo, redo, removeSelectedShapes } = useCommand();
+  const { editingId } = useTextEditor();
 
   const getAllShapes = (component: ShapeComponent): Shape[] => {
     if (component instanceof Shape) {
@@ -28,6 +30,8 @@ const Canvas = observer(() => {
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
+      if (editingId) return;
+
       if (e.key === "Escape") {
         vm.clearSelection();
       } else if (e.key === "Backspace" && vm.hasSelection) {
@@ -41,7 +45,7 @@ const Canvas = observer(() => {
         e.preventDefault();
       }
     },
-    [vm, undo, redo, removeSelectedShapes]
+    [vm, undo, redo, removeSelectedShapes, editingId]
   );
 
   useEffect(() => {

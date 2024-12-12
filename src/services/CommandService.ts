@@ -38,6 +38,7 @@ export class CommandService {
   }
 
   updateShape(shape: ShapeComponent, updates: Partial<ShapeProperties>): void {
+    console.log("CommandService updateShape:", shape.getId(), updates);
     const command = this.commandFactory.createUpdateCommand(shape, updates);
     this.executeCommand(command);
   }

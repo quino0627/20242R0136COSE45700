@@ -22,6 +22,7 @@ export const useCommand = () => {
     shape: ShapeComponent,
     updates: Partial<ShapeProperties>
   ) => {
+    console.log("useCommand updateShape:", shape.getId(), updates);
     commandService.updateShape(shape, updates);
   };
 

@@ -18,11 +18,12 @@ export class Shape implements ShapeComponent {
   @observable private properties: ShapeProperties;
 
   constructor(properties: ShapeProperties) {
-    this.properties = {
+    this.properties = observable.object({
       ...properties,
       position: observable({ ...properties.position }),
       size: observable({ ...properties.size }),
-    };
+      color: properties.color || "#00D5FF",
+    });
     makeAutoObservable(this, {}, { deep: true });
   }
 
@@ -90,11 +91,13 @@ export class Shape implements ShapeComponent {
   }
 
   getColor(): string {
-    return this.properties.color ?? "#0051CC";
+    return this.properties.color || "#00D5FF";
   }
 
   setColor(color: string): void {
-    this.properties.color = color;
+    runInAction(() => {
+      this.properties.color = color;
+    });
   }
 
   clone(): ShapeComponent {
