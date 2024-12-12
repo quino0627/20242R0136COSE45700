@@ -5,6 +5,8 @@ import { UpdateShapeCommand } from "./UpdateShapeCommand";
 import { ShapeComponent } from "@/models/ShapeComponent";
 import { ShapeProperties } from "@/models/Shape";
 import { ShapeCommandExecutor } from "./ShapeCommandExecutor";
+import { ShapeType } from "@/constants/ShapeType";
+import { ShapeFactory } from "@/factories/ShapeFactory";
 import { makeAutoObservable } from "mobx";
 
 export class CommandFactory {
@@ -23,8 +25,8 @@ export class CommandFactory {
     return CommandFactory.instance;
   }
 
-  createAddCommand(shape: ShapeComponent): Command {
-    return new AddShapeCommand(shape, this.executor);
+  createAddCommand(type: ShapeType): Command {
+    return new AddShapeCommand(type, this.executor);
   }
 
   createRemoveCommand(shape: ShapeComponent): Command {

@@ -1,6 +1,6 @@
 import { Button, Stack, Text } from "@channel.io/bezier-react";
 import { ShapeType } from "@/constants/ShapeType";
-import { useShapeViewModel } from "@/hooks/useShapeViewModel";
+import { useCommand } from "@/hooks/useCommand";
 import styled from "styled-components";
 import { observer } from "mobx-react-lite";
 
@@ -21,11 +21,7 @@ const Section = styled.div`
 `;
 
 const LeftPanel = observer(() => {
-  const vm = useShapeViewModel();
-
-  const onCreateObject = (type: ShapeType) => {
-    vm.addShape(type);
-  };
+  const { addShape, undo, redo, canUndo, canRedo } = useCommand();
 
   return (
     <Panel>
@@ -39,9 +35,9 @@ const LeftPanel = observer(() => {
               size="m"
               colorVariant="cobalt"
               styleVariant="secondary"
-              onClick={() => vm.undo()}
+              onClick={undo}
               text="실행 취소"
-              disabled={!vm.canUndo()}
+              disabled={!canUndo()}
             >
               실행 취소
             </Button>
@@ -49,9 +45,9 @@ const LeftPanel = observer(() => {
               size="m"
               colorVariant="cobalt"
               styleVariant="secondary"
-              onClick={() => vm.redo()}
+              onClick={redo}
               text="다시 실행"
-              disabled={!vm.canRedo()}
+              disabled={!canRedo()}
             >
               다시 실행
             </Button>
@@ -67,7 +63,7 @@ const LeftPanel = observer(() => {
               size="m"
               colorVariant="cobalt"
               styleVariant="secondary"
-              onClick={() => onCreateObject(ShapeType.RECTANGLE)}
+              onClick={() => addShape(ShapeType.RECTANGLE)}
               text="사각형"
             >
               사각형
@@ -76,7 +72,7 @@ const LeftPanel = observer(() => {
               size="m"
               colorVariant="cobalt"
               styleVariant="secondary"
-              onClick={() => onCreateObject(ShapeType.ELLIPSE)}
+              onClick={() => addShape(ShapeType.ELLIPSE)}
               text="원"
             >
               원
@@ -85,7 +81,7 @@ const LeftPanel = observer(() => {
               size="m"
               colorVariant="cobalt"
               styleVariant="secondary"
-              onClick={() => onCreateObject(ShapeType.LINE)}
+              onClick={() => addShape(ShapeType.LINE)}
               text="선"
             >
               선
@@ -94,7 +90,7 @@ const LeftPanel = observer(() => {
               size="m"
               colorVariant="cobalt"
               styleVariant="secondary"
-              onClick={() => onCreateObject(ShapeType.TEXT)}
+              onClick={() => addShape(ShapeType.TEXT)}
               text="텍스트"
             >
               텍스트

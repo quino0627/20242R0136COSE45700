@@ -45,7 +45,7 @@ Design Patterns: Elements of Reusable Object-Oriented Software
 - 과제에서는 앱스트랙트 팩토리를 쓰더라도 하나만 뽑아내는 팩토리가 될 것
 - 과제에서는 팩토리는 하나 정도만 사용된다.
 - 컴퍼짓을 사용할 일이 반드시 있을것이다
-- Status, Observer, Abstract Factory, Singleton, Compisite, Command 패턴 사용해야 함
+- State, Observer, Abstract Factory, Singleton, Composite, Command 패턴 사용해야 함
 - 다중 선택을 list 가 아닌 composite 으로 구현해야 함
 - SelectionManager는 싱글톤으로, 커맨드 안에서 싱글톤 서비스 값 가져오기
 - 언도 리도는 커맨드를 큐에 집어넣기

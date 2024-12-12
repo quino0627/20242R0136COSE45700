@@ -8,10 +8,11 @@ import { ShapeGroup } from "@/models/ShapeGroup";
 import { KonvaEventObject } from "konva/lib/Node";
 import { observer } from "mobx-react-lite";
 import { Group, Layer, Stage } from "react-konva";
+import { useCommand } from "@/hooks/useCommand";
 
 const Canvas = observer(() => {
   const vm = useShapeViewModel();
-  console.log("Canvas rendering, shapes:", vm.shapes);
+  const { updateShape, undo, redo, removeSelectedShapes } = useCommand();
 
   const getAllShapes = (component: ShapeComponent): Shape[] => {
     if (component instanceof Shape) {
@@ -30,17 +31,17 @@ const Canvas = observer(() => {
       if (e.key === "Escape") {
         vm.clearSelection();
       } else if (e.key === "Backspace" && vm.hasSelection) {
-        vm.removeSelectedShapes();
+        removeSelectedShapes();
       } else if ((e.metaKey || e.ctrlKey) && e.key === "z") {
         if (e.shiftKey) {
-          vm.redo();
+          redo();
         } else {
-          vm.undo();
+          undo();
         }
         e.preventDefault();
       }
     },
-    [vm]
+    [vm, undo, redo, removeSelectedShapes]
   );
 
   useEffect(() => {
@@ -50,7 +51,6 @@ const Canvas = observer(() => {
 
   const handleCanvasClick = (e: KonvaEventObject<MouseEvent>) => {
     if (e.target === e.target.getStage()) {
-      console.log("Canvas background clicked");
       vm.clearSelection();
     }
   };
@@ -78,7 +78,7 @@ const Canvas = observer(() => {
                   }
                 }}
                 onChange={(updates: Partial<ShapeProperties>) =>
-                  vm.updateShape(shape.getId(), updates)
+                  updateShape(shape, updates)
                 }
               />
             );

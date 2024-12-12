@@ -1,16 +1,16 @@
 import { Command } from "./Command";
 import { ShapeComponent } from "@/models/ShapeComponent";
-import { ShapeCommandExecutor } from "@/commands/ShapeCommandExecutor";
-import { makeAutoObservable } from "mobx";
+import { ShapeCommandExecutor } from "./ShapeCommandExecutor";
+import { ShapeType } from "@/constants/ShapeType";
+import { ShapeFactory } from "@/factories/ShapeFactory";
 
 export class AddShapeCommand implements Command {
   private shape: ShapeComponent;
   private executor: ShapeCommandExecutor;
 
-  constructor(shape: ShapeComponent, executor: ShapeCommandExecutor) {
-    this.shape = shape.clone();
+  constructor(type: ShapeType, executor: ShapeCommandExecutor) {
+    this.shape = ShapeFactory.getInstance().createShape(type);
     this.executor = executor;
-    makeAutoObservable(this);
   }
 
   execute(): void {

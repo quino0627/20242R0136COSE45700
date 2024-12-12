@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useShapeViewModel } from "@/hooks/useShapeViewModel";
+import { useCommand } from "@/hooks/useCommand";
 import { observer } from "mobx-react-lite";
 
 const Panel = styled.div`
@@ -14,6 +15,7 @@ const Panel = styled.div`
 
 const DebugPanel = observer(() => {
   const vm = useShapeViewModel();
+  const { getCommandHistory } = useCommand();
 
   const getDebugInfo = () => {
     return {
@@ -25,7 +27,7 @@ const DebugPanel = observer(() => {
         rotation: shape.getRotation(),
         zIndex: shape.getZIndex(),
       })),
-      commandHistory: vm.commandHistoryList.map((command) => ({
+      commandHistory: getCommandHistory().map((command) => ({
         type: command.constructor.name,
       })),
     };

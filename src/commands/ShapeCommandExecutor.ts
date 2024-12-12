@@ -1,5 +1,5 @@
-import { ShapeProperties } from "@/models/Shape";
 import { ShapeComponent } from "@/models/ShapeComponent";
+import { ShapeProperties } from "@/models/Shape";
 
 export interface ShapeCommandExecutor {
   addShapeToState(shape: ShapeComponent): void;
@@ -8,5 +8,4 @@ export interface ShapeCommandExecutor {
     shape: ShapeComponent,
     updates: Partial<ShapeProperties>
   ): void;
-  getShapeById(id: string): ShapeComponent | undefined;
 }

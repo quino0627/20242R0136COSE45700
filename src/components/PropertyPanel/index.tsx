@@ -11,6 +11,7 @@ import { Panel, Section, PropertyItem } from "./styled";
 import { ShapeComponent } from "@/models/ShapeComponent";
 import { Position, Size } from "@/models/types";
 import { useShapeViewModel } from "@/hooks/useShapeViewModel";
+import { useCommand } from "@/hooks/useCommand";
 import { observer } from "mobx-react-lite";
 import { useState, useRef } from "react";
 
@@ -34,7 +35,8 @@ interface PropertyValue<T> {
 const PropertyPanel = observer(() => {
   const selectRef = useRef<SelectRef>(null);
   const vm = useShapeViewModel();
-  const { selectedShapes, hasSelection, updateSelectedShapes } = vm;
+  const { updateShape } = useCommand();
+  const { selectedShapes, hasSelection } = vm;
 
   if (!hasSelection) {
     return (
@@ -46,52 +48,59 @@ const PropertyPanel = observer(() => {
     );
   }
 
-  const getCommonValue = <T,>(
-    getter: (component: ShapeComponent) => T
-  ): PropertyValue<T> => {
-    const values = selectedShapes.map(getter);
-    const firstValue = values[0];
-    return {
-      value: values.every((v) => v === firstValue) ? firstValue : null,
-      isMultiple: !values.every((v) => v === firstValue),
-    };
-  };
-
   const handlePositionChange = (axis: keyof Position, value: number) => {
-    const currentPosition = selectedShapes[0].getPosition();
-    updateSelectedShapes({
-      position: {
-        ...currentPosition,
-        [axis]: value,
-      },
+    selectedShapes.forEach((shape) => {
+      const currentPosition = shape.getPosition();
+      updateShape(shape, {
+        position: {
+          ...currentPosition,
+          [axis]: value,
+        },
+      });
     });
   };
 
   const handleSizeChange = (dimension: keyof Size, value: number) => {
-    const currentSize = selectedShapes[0].getSize();
-    updateSelectedShapes({
-      size: {
-        ...currentSize,
-        [dimension]: value,
-      },
+    selectedShapes.forEach((shape) => {
+      const currentSize = shape.getSize();
+      updateShape(shape, {
+        size: {
+          ...currentSize,
+          [dimension]: value,
+        },
+      });
     });
   };
 
   const position = {
-    x: getCommonValue((component) => component.getPosition().x),
-    y: getCommonValue((component) => component.getPosition().y),
+    x: {
+      value: selectedShapes[0].getPosition().x,
+      isMultiple: selectedShapes.length > 1,
+    },
+    y: {
+      value: selectedShapes[0].getPosition().y,
+      isMultiple: selectedShapes.length > 1,
+    },
   };
 
   const size = {
-    width: getCommonValue((component) => component.getSize().width),
-    height: getCommonValue((component) => component.getSize().height),
+    width: {
+      value: selectedShapes[0].getSize().width,
+      isMultiple: selectedShapes.length > 1,
+    },
+    height: {
+      value: selectedShapes[0].getSize().height,
+      isMultiple: selectedShapes.length > 1,
+    },
   };
 
   // const color = getCommonValue((component) => component.getColor?.());
 
   const handleColorChange = (value: string) => {
-    updateSelectedShapes({
-      color: value,
+    selectedShapes.forEach((shape) => {
+      updateShape(shape, {
+        color: value,
+      });
     });
   };
 
